@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 
 import photo1 from "./assets/photo1.jpeg";
@@ -18,16 +18,17 @@ export default function App() {
   const [liked, setLiked] = useState({});
   const [hearts, setHearts] = useState([]);
 
-  // Add floating hearts when Yes clicked
   const handleYesClick = () => {
     setStage("yes");
-    // Generate floating hearts
+
+    // floating hearts animation
     const heartArray = Array.from({ length: 15 }).map(() => ({
       id: Math.random(),
       left: Math.random() * 90 + "%",
       duration: Math.random() * 3 + 2 + "s",
       size: Math.random() * 30 + 20 + "px",
     }));
+
     setHearts(heartArray);
   };
 
@@ -36,12 +37,16 @@ export default function App() {
       {stage === "ask" && (
         <>
           <h1>💖 {BF_NAME}, will you be my Valentine?</h1>
+
           <div className="buttons">
             <button className="yes" onClick={handleYesClick}>
               Yes 😍
             </button>
 
-            <button className="no" onClick={() => alert("Come on 😏 Click Yes!")}>
+            <button
+              className="no"
+              onClick={() => alert("Come on 😏 You know the answer is YES!")}
+            >
               No 🙈
             </button>
           </div>
@@ -66,7 +71,9 @@ export default function App() {
           ))}
 
           <h1 className="fade-in">💘 Our Little Love Gallery 💘</h1>
-          <p className="msg fade-in">Every photo holds a feeling, Sambit ❤️</p>
+          <p className="msg fade-in">
+            Every photo holds a feeling, Sambit ❤️
+          </p>
 
           <div className="gallery">
             {memories.map((item, index) => (
