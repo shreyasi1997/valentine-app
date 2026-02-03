@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 
 import photo1 from "./assets/photo1.jpeg";
 import photo2 from "./assets/photo2.jpeg";
 import photo3 from "./assets/photo3.jpeg";
+import loveSong from "./assets/love.mp3";
 
 const BF_NAME = "Sambit Mitra";
 
@@ -17,35 +18,48 @@ export default function App() {
   const [stage, setStage] = useState("ask");
   const [liked, setLiked] = useState({});
   const [hearts, setHearts] = useState([]);
+  const audioRef = useRef(null);
 
   const handleYesClick = () => {
     setStage("yes");
 
-    // floating hearts animation
-    const heartArray = Array.from({ length: 15 }).map(() => ({
+    // play music
+    audioRef.current.play();
+
+    // floating hearts
+    const heartArray = Array.from({ length: 20 }).map(() => ({
       id: Math.random(),
-      left: Math.random() * 90 + "%",
-      duration: Math.random() * 3 + 2 + "s",
+      left: Math.random() * 95 + "%",
+      duration: Math.random() * 3 + 3 + "s",
       size: Math.random() * 30 + 20 + "px",
     }));
-
     setHearts(heartArray);
   };
 
   return (
-    <div className="container">
+    <div className="container romantic-bg">
+      <audio ref={audioRef} src={loveSong} loop />
+
       {stage === "ask" && (
         <>
-          <h1>💖 {BF_NAME}, will you be my Valentine?</h1>
+          <h1 className="fade-in">
+            💖 {BF_NAME}, will you be my Valentine?
+          </h1>
+
+          <p className="romantic-line fade-in">
+            I promise a lifetime of love, laughter & holding hands 💕
+          </p>
 
           <div className="buttons">
-            <button className="yes" onClick={handleYesClick}>
+            <button className="yes pulse" onClick={handleYesClick}>
               Yes 😍
             </button>
 
             <button
               className="no"
-              onClick={() => alert("Come on 😏 You know the answer is YES!")}
+              onClick={() =>
+                alert("Oops 😏 Destiny doesn’t accept NO here!")
+              }
             >
               No 🙈
             </button>
@@ -70,9 +84,12 @@ export default function App() {
             </span>
           ))}
 
-          <h1 className="fade-in">💘 Our Little Love Gallery 💘</h1>
+          <h1 className="fade-in glow-text">
+            💘 Our Love Story 💘
+          </h1>
+
           <p className="msg fade-in">
-            Every photo holds a feeling, Sambit ❤️
+            Loving you is my favorite forever, Sambit ❤️
           </p>
 
           <div className="gallery">
@@ -96,8 +113,12 @@ export default function App() {
             ))}
           </div>
 
-          <button className="reset" onClick={() => setStage("ask")}>
-            Start Again 🔄
+          <p className="romantic-footer fade-in">
+            From this moment… it’s always you 💞
+          </p>
+
+          <button className="reset" onClick={() => window.location.reload()}>
+            Relive Our Moment 🔄
           </button>
         </>
       )}
